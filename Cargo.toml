@@ -1,0 +1,13 @@
+[package]
+name = "libmusic"
+version = "1.0.0"
+edition = "2021"
+
+[lints.rust]
+missing_debug_implementations = "warn"
+missing_docs = "warn"
+unused = "warn"
+
+[[bin]]
+name = "music"
+path = "main.rs"
