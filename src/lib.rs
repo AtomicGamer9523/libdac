@@ -120,7 +120,7 @@ pub mod validation;
 
 impl Note {
     pub const fn normalize(&self) -> Self {
-        
+        todo!()
     }
 }
 
@@ -133,8 +133,9 @@ impl Chord {
         Self(chord)
     }
     pub const fn contains(&self, note: &Note) -> bool {
-        let note = note.0;
-        let chord = self.0;
-        let note_id 
+        // let note = note.0;
+        // let chord = self.0;
+        // let note_id 
+        todo!()
     }
 }
