@@ -3,7 +3,8 @@
 use libmusic::*;
 
 fn main() {
-    fuzz();
+    println!("{:#?}", Chord::C_MAJOR);
+    // fuzz();
 }
 
 fn fuzz() {

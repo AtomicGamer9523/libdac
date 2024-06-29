@@ -1,3 +1,5 @@
+//! Contains the validation logic for making sure that the notes and chords are valid
+
 use crate::*;
 
 use core::fmt;
@@ -11,18 +13,26 @@ const fn noop() -> ! {
     panic!("This should be unreachable!")
 }
 
+/// An error that may occur when a note is validated
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum NoteValidationError {
+    /// The note started with '000'. That is not allowed!
     InvalidStart,
+    /// Sharp and Flat cannot both be true
     SharpAndFlat,
+    /// E# is not allowed
     ESharp,
+    /// F♭ is not allowed
     FFlat,
+    /// B# is not allowed
     BSharp,
+    /// C♭ is not allowed
     CFlat,
 }
 
 impl NoteValidationError {
+    /// Gets the error message as a static string slice
     pub const fn as_str(&self) -> &'static str {
         match self {
             Self::InvalidStart => "Invalid Internal Note Representation: Started with '000'. That is not allowed!",
@@ -36,8 +46,9 @@ impl NoteValidationError {
 }
 
 impl fmt::Display for NoteValidationError {
+    #[inline]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.as_str())
+        self.as_str().fmt(f)
     }
 }
 
@@ -54,7 +65,10 @@ impl Note {
     }
     /// Tries to create a note from a raw u8
     /// 
+    /// # Safety
+    /// 
     /// Does not validate the note
+    #[inline]
     pub const unsafe fn try_from_raw_unchecked(raw: u8) -> Self {
         Self(raw)
     }
@@ -86,7 +100,6 @@ impl Note {
         }
         Ok(())
     }
-    #[must_use]
     #[doc(hidden)]
     const fn validate_inner(&self) -> Result<u8, NoteValidationError> {
         let first_3_bits: u8 = self.0 >> 5;
